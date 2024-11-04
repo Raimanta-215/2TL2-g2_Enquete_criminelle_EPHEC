@@ -3,7 +3,7 @@ import flask
 from flask  import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-
+#ca marche pas apparemment 
 # Stockage temporaire pour les enquêtes
 enquetes = []
 
