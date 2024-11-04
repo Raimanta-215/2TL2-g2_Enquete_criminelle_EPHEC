@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Créer une Enquête</title>
+</head>
+<body>
+    <h1>Créer une Nouvelle Enquête</h1>
+    <form action="{{ url_for('create_enquete') }}" method="post">
+        <label for="numEnquete">Numéro d'Enquête :</label>
+        <input type="text" id="numEnquete" name="numEnquete" required><br>
+
+        <label for="titreEnquete">Titre de l'Enquête :</label>
+        <input type="text" id="titreEnquete" name="titreEnquete" required><br>
+
+        <label for="description">Description :</label>
+        <textarea id="description" name="idDescription" required></textarea><br>
+
+        <label for="dateDebut">Date de Début :</label>
+        <input type="date" id="idDateDebut" name="dateDebut" required><br>
+
+        <label for="victime"> Nom victime : </label>
+        <input type="text" id="nameVictime" name="victime"><br>
+
+        <label for="suspect"> Nom suspect : </label>
+        <input type="text" id="nameSuspect" name="suspect"><br>
+
+        <label for="temoin"> Nom témoin : </label>
+        <input type="text" id="nameTemoin" name="temoin"><br>
+
+        <label for="preuve"> Preuve : </label>
+        <input type="text" id="idPreuve" name="preuve"><br>
+
+        <label for="inspecteur"> Inspecteur en charge de l'enquête : </label>
+        <input type="text" id="nameInspecteur" name="inspecteur"><br> 
+
+        <label for="statut">Statut :</label>
+        <select id="idStatut" name="statut" required>
+            <option value="En cours">En cours</option>
+            <option value="Terminé">Terminé</option>
+            <option value="Suspendu">Suspendu</option>
+        </select><br>
+
+        <button type="submit">Enregistrer l'Enquête</button>
+    </form>
+</body>
+</html>
