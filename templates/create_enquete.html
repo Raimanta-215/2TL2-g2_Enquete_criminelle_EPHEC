@@ -7,18 +7,16 @@
 <body>
     <h1>Créer une Nouvelle Enquête</h1>
     <form action="{{ url_for('create_enquete') }}" method="post">
+
+        <label for="dateDebut">Date de Début :</label>
+        <input type="date" id="idDateDebut" name="dateDebut" required><br>
+
         <label for="numEnquete">Numéro d'Enquête :</label>
         <input type="text" id="numEnquete" name="numEnquete" required><br>
 
         <label for="titreEnquete">Titre de l'Enquête :</label>
         <input type="text" id="titreEnquete" name="titreEnquete" required><br>
-
-        <label for="description">Description :</label>
-        <textarea id="description" name="idDescription" required></textarea><br>
-
-        <label for="dateDebut">Date de Début :</label>
-        <input type="date" id="idDateDebut" name="dateDebut" required><br>
-
+        
         <label for="victime"> Nom victime : </label>
         <input type="text" id="nameVictime" name="victime"><br>
 
@@ -40,6 +38,9 @@
             <option value="Terminé">Terminé</option>
             <option value="Suspendu">Suspendu</option>
         </select><br>
+
+        <label for="description">Description :</label>
+        <textarea id="description" name="idDescription" required></textarea><br>
 
         <button type="submit">Enregistrer l'Enquête</button>
     </form>
