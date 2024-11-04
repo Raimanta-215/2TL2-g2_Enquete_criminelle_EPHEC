@@ -22,6 +22,11 @@ def create_enquete():
         description = request.form['description']
         date_debut = request.form['dateDebut']
         statut = request.form['statut']
+        victime = request.form['victime']
+        suspect = request.form['suspect']
+        temoin = request.form['temoin']
+        preuve = request.form['preuve']
+        inspecteur = request.form['inspecteur']
 
         # Créer un dictionnaire pour représenter l'enquête
         enquete = {
@@ -30,6 +35,11 @@ def create_enquete():
             'description': description,
             'dateDebut': date_debut,
             'statut': statut,
+            'victime': victime,
+            'suspect': suspect,
+            'temoin': temoin,
+            'preuve': preuve,
+            'inspecteur': inspecteur,
         }
 
         # Ajouter l'enquête à la liste

@@ -9,7 +9,17 @@
     <a href="{{ url_for('create_enquete') }}">Créer une nouvelle enquête</a>
     <ul>
         {% for enquete in enquetes %}
-            <li><strong>{{ enquete['numEnquete'] }} - {{ enquete['titreEnquete'] }}</strong>: {{ enquete['description'] }} (Début: {{ enquete['dateDebut'] }}, Statut: {{ enquete['statut'] }})</li>
+            <li><strong>{{ enquete['numEnquete'] }} - {{ enquete['titreEnquete'] }}</strong>:
+                {{ enquete['description'] }}
+                (Début: {{ enquete['dateDebut'] }},
+                Statut: {{ enquete['statut'] }},
+                Victime: {{ enquete['victime'] }},
+                Suspect: {{ enquete['suspect'] }},
+                Temoin: {{ enquete['temoin'] }},
+                Preuve: {{ enquete['preuve'] }},
+                Inspecteur: {{ enquete['inspecteur'] }})
+                <a href="modifier_enquete.html">Modifier</a>
+            </li>
         {% endfor %}
     </ul>
 </body>
