@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Gestion des Enquêtes</title>
+</head>
+<body>
+    <h1>Liste des Enquêtes</h1>
+    <a href="{{ url_for('create_enquete') }}">Créer une nouvelle enquête</a>
+    <ul>
+        {% for enquete in enquetes %}
+            <li><strong>{{ enquete['numEnquete'] }} - {{ enquete['titreEnquete'] }}</strong>: {{ enquete['description'] }} (Début: {{ enquete['dateDebut'] }}, Statut: {{ enquete['statut'] }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
