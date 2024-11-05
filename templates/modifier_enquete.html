@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Modifier l'Enquête</h1>
-    <form action="{{ url_for('edit_enquete', enquete_id=enquete_id) }}" method="POST">
+    <form action="{{ url_for('modifier_enquete', enquete_id=enquete_id) }}" method="POST">
         <label for="numEnquete">Numéro d'Enquête :</label>
         <input type="text" id="numEnquete" name="numEnquete" value="{{ enquete['numEnquete'] }}" required><br>
 
@@ -14,27 +14,27 @@
         <input type="text" id="titreEnquete" name="titreEnquete" value="{{ enquete['titreEnquete'] }}" required><br>
 
         <label for="description">Description :</label>
-        <textarea id="description" name="idDescription" required>{{ enquete['description'] }}</textarea><br>
+        <textarea id="description" name="description" required>{{ enquete['description'] }}</textarea><br>
 
-        <label for="dateDebut">Date de Début :</label>
+        <label for="idDateDebut">Date de Début :</label>
         <input type="date" id="idDateDebut" name="dateDebut" value="{{ enquete['dateDebut'] }}" required><br>
 
-        <label for="victime">Nom victime :</label>
+        <label for="nameVictime">Nom victime :</label>
         <input type="text" id="nameVictime" name="victime" value="{{ enquete['victime'] }}"><br>
 
-        <label for="suspect">Nom suspect :</label>
+        <label for="nameSuspect">Nom suspect :</label>
         <input type="text" id="nameSuspect" name="suspect" value="{{ enquete['suspect'] }}"><br>
 
-        <label for="temoin">Nom témoin :</label>
+        <label for="nameTemoin">Nom témoin :</label>
         <input type="text" id="nameTemoin" name="temoin" value="{{ enquete['temoin'] }}"><br>
 
-        <label for="preuve">Preuve :</label>
+        <label for="idPreuve">Preuve :</label>
         <input type="text" id="idPreuve" name="preuve" value="{{ enquete['preuve'] }}"><br>
 
-        <label for="inspecteur">Inspecteur en charge de l'enquête :</label>
+        <label for="nameInspecteur">Inspecteur en charge de l'enquête :</label>
         <input type="text" id="nameInspecteur" name="inspecteur" value="{{ enquete['inspecteur'] }}"><br>
 
-        <label for="statut">Statut :</label>
+        <label for="idstatut">Statut :</label>
         <select id="idStatut" name="statut" required>
             <option value="En cours" {% if enquete['statut'] == 'En cours' %}selected{% endif %}>En cours</option>
             <option value="Terminé" {% if enquete['statut'] == 'Terminé' %}selected{% endif %}>Terminé</option>

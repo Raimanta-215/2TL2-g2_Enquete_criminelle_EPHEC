@@ -8,7 +8,7 @@
     <h1>Créer une Nouvelle Enquête</h1>
     <form action="{{ url_for('create_enquete') }}" method="post">
 
-        <label for="dateDebut">Date de Début :</label>
+        <label for="idDateDebut">Date de Début :</label>
         <input type="date" id="idDateDebut" name="dateDebut" required><br>
 
         <label for="numEnquete">Numéro d'Enquête :</label>
@@ -17,29 +17,29 @@
         <label for="titreEnquete">Titre de l'Enquête :</label>
         <input type="text" id="titreEnquete" name="titreEnquete" required><br>
 
-        <label for="victime"> Nom victime : </label>
+        <label for="nameVictime"> Nom victime : </label>
         <input type="text" id="nameVictime" name="victime"><br>
 
-        <label for="suspect"> Nom suspect : </label>
+        <label for="nameSuspect"> Nom suspect : </label>
         <input type="text" id="nameSuspect" name="suspect"><br>
 
-        <label for="temoin"> Nom témoin : </label>
+        <label for="nameTemoin"> Nom témoin : </label>
         <input type="text" id="nameTemoin" name="temoin"><br>
 
-        <label for="preuve"> Preuve : </label>
+        <label for="idPreuve"> Preuve : </label>
         <input type="text" id="idPreuve" name="preuve"><br>
 
-        <label for="inspecteur"> Inspecteur en charge de l'enquête : </label>
+        <label for="nameInspecteur"> Inspecteur en charge de l'enquête : </label>
         <input type="text" id="nameInspecteur" name="inspecteur"><br> 
 
-        <label for="statut">Statut :</label>
+        <label for="idStatut">Statut :</label>
         <select id="idStatut" name="statut" required>
             <option value="En cours">En cours</option>
             <option value="Terminé">Terminé</option>
             <option value="Suspendu">Suspendu</option>
         </select><br>
 
-        <label for="description">Description :</label>
+        <label for="idDescription">Description :</label>
         <textarea id="idDescription" name="description" required></textarea><br>
 
         <button type="submit">Enregistrer l'Enquête</button>
