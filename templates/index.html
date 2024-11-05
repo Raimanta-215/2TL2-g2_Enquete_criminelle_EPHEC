@@ -10,7 +10,6 @@
         <div>
             <p><strong>Numéro d'Enquête :</strong> {{ enquete['numEnquete'] }}</p>
             <p><strong>Titre :</strong> {{ enquete['titreEnquete'] }}</p>
-            <p><strong>Description :</strong> {{ enquete['description'] }}</p>
             <p><strong>Date de Début :</strong> {{ enquete['dateDebut'] }}</p>
             <p><strong>Victime :</strong> {{ enquete['victime'] }}</p>
             <p><strong>Suspect :</strong> {{ enquete['suspect'] }}</p>
@@ -18,10 +17,11 @@
             <p><strong>Preuve :</strong> {{ enquete['preuve'] }}</p>
             <p><strong>Inspecteur :</strong> {{ enquete['inspecteur'] }}</p>
             <p><strong>Statut :</strong> {{ enquete['statut'] }}</p>
-            <a href="{{ url_for('modifier_enquete', enquete_id=loop.index0) }}">Modifier</a>
+            <p><strong>Description :</strong> {{ enquete['description'] }}</p>
+            <button onclick = 'window.location.href="{{ url_for('modifier_enquete', enquete_id=loop.index0) }}"'>Modifier</button>
         </div>
         <hr>
     {% endfor %}
-    <a href="{{ url_for('create_enquete') }}">Créer une nouvelle enquête</a>
+    <button onclick= 'window.location.href="{{ url_for('create_enquete') }}"'>Créer une nouvelle enquête</button>
 </body>
 </html>

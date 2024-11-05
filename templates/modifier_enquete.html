@@ -13,9 +13,6 @@
         <label for="titreEnquete">Titre de l'Enquête :</label>
         <input type="text" id="titreEnquete" name="titreEnquete" value="{{ enquete['titreEnquete'] }}" required><br>
 
-        <label for="description">Description :</label>
-        <textarea id="description" name="description" required>{{ enquete['description'] }}</textarea><br>
-
         <label for="idDateDebut">Date de Début :</label>
         <input type="date" id="idDateDebut" name="dateDebut" value="{{ enquete['dateDebut'] }}" required><br>
 
@@ -41,9 +38,13 @@
             <option value="Suspendu" {% if enquete['statut'] == 'Suspendu' %}selected{% endif %}>Suspendu</option>
         </select><br>
 
+        <label for="description">Description :</label>
+        <textarea id="description" name="description" required>{{ enquete['description'] }}</textarea><br>
+
+
         <button type="submit">Enregistrer les modifications</button>
     </form>
-    <a href="{{ url_for('index') }}">Retour à la liste des enquêtes</a>
+    <button onclick = 'window.location.href="{{ url_for('index') }}"'>Retour à la liste des enquêtes</button>
 </body>
 </html>
 

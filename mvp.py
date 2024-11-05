@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# Liste fictive des enquêtes pour simuler une base de données
 enquetes = []
 
 @app.route('/')
@@ -35,7 +34,6 @@ def modifier_enquete(enquete_id):
     if request.method == 'POST':
         enquete['numEnquete'] = request.form['numEnquete']
         enquete['titreEnquete'] = request.form['titreEnquete']
-        enquete['description'] = request.form['idDescription']
         enquete['dateDebut'] = request.form['dateDebut']
         enquete['victime'] = request.form['victime']
         enquete['suspect'] = request.form['suspect']
@@ -43,6 +41,7 @@ def modifier_enquete(enquete_id):
         enquete['preuve'] = request.form['preuve']
         enquete['inspecteur'] = request.form['inspecteur']
         enquete['statut'] = request.form['statut']
+        enquete['description'] = request.form['description']
         return redirect(url_for('index'))
 
     return render_template('modifier_enquete.html', enquete=enquete, enquete_id=enquete_id)
