@@ -1,12 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <title>Gestion des Enquêtes</title>
+    <meta charset="UTF-8">
+    <title>Gestion des enquetes</title>
 </head>
 <body>
     <h1>Liste des Enquêtes</h1>
+    {% for enquete in enquetes %}
+        <div>
+            <p><strong>Numéro d'Enquête :</strong> {{ enquete['numEnquete'] }}</p>
+            <p><strong>Titre :</strong> {{ enquete['titreEnquete'] }}</p>
+            <p><strong>Description :</strong> {{ enquete['description'] }}</p>
+            <p><strong>Date de Début :</strong> {{ enquete['dateDebut'] }}</p>
+            <p><strong>Victime :</strong> {{ enquete['victime'] }}</p>
+            <p><strong>Suspect :</strong> {{ enquete['suspect'] }}</p>
+            <p><strong>Témoin :</strong> {{ enquete['temoin'] }}</p>
+            <p><strong>Preuve :</strong> {{ enquete['preuve'] }}</p>
+            <p><strong>Inspecteur :</strong> {{ enquete['inspecteur'] }}</p>
+            <p><strong>Statut :</strong> {{ enquete['statut'] }}</p>
+            <a href="{{ url_for('edit_enquete', enquete_id=loop.index0) }}">Modifier</a>
+        </div>
+        <hr>
+    {% endfor %}
     <a href="{{ url_for('create_enquete') }}">Créer une nouvelle enquête</a>
+<<<<<<< Updated upstream
     <ul>
         {% for enquete in enquetes %}
             <li><strong>{{ enquete['numEnquete'] }} - {{ enquete['titreEnquete'] }}</strong>:
@@ -22,5 +39,7 @@
             </li>
         {% endfor %}
     </ul>
+=======
+>>>>>>> Stashed changes
 </body>
 </html>
