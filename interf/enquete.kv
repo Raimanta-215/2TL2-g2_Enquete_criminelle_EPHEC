@@ -1,0 +1,59 @@
+<EnqueteApp>:
+    orientation: "vertical"
+    enquete_list: enquete_list
+    nom_input: nom_input
+    lieu_input: lieu_input
+    type_crime_input: type_crime_input
+    description_input: description_input
+
+    BoxLayout:
+        size_hint_y: 0.2
+        orientation: "horizontal"
+
+        Label:
+            text: "Nom:"
+        TextInput:
+            id: nom_input
+
+        Label:
+            text: "Lieu:"
+        TextInput:
+            id: lieu_input
+
+    BoxLayout:
+        size_hint_y: 0.2
+        orientation: "horizontal"
+
+        Label:
+            text: "Type de crime:"
+        TextInput:
+            id: type_crime_input
+
+        Label:
+            text: "Description:"
+        TextInput:
+            id: description_input
+
+    BoxLayout:
+        size_hint_y: 0.1
+        orientation: "horizontal"
+
+        Button:
+            text: "Ajouter Enquête"
+            on_press: root.ajouter_enquete()
+
+        Button:
+            text: "Voir Détails"
+            on_press: root.afficher_details()
+
+    ListView:
+        id: enquete_list
+        adapter:
+            ListAdapter(data=[], cls=ListItemButton)
+
+    Label:
+        id: details_label
+        text: "Sélectionnez une enquête pour voir les détails."
+        size_hint_y: 0.2
+        valign: "top"
+        halign: "left"
