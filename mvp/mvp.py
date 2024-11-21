@@ -46,5 +46,5 @@ def modifier_enquete(enquete_id):
 
     return render_template('modifier_enquete.html', enquete=enquete, enquete_id=enquete_id)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+   # app.run(debug=True)
