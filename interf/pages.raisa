@@ -1,0 +1,81 @@
+<Button>:
+    size_hint: None, None
+    width: 200
+    height: 200
+    background_normal: "red"
+    background_down: "white"
+    color: "black"
+
+
+
+<AccueilScreen>:
+    BoxLayout:
+        size_hint: 1, 1
+        orientation: 'vertical'
+
+        Label:
+            text: "Comissariat de la Police de Piltover"
+            font_size: 60
+            bold: True
+            halign: 'center'
+            valigne: 'top'
+            color: (165/255,0/255,85/255,1)
+            size_hint: 1, 0.2
+        BoxLayout:
+            #canvas.before:
+                #Color:
+                    #rgba: 0,0.5,0,1
+                #Rectangle:
+                    #size: self.size
+                    #pos: self.pos
+            oreintation: 'horizontal'
+            size_hint: 0.5,1
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+
+            GridLayout:
+
+                cols: 2
+                rows: 2
+                padding : 150
+                spacing: 50
+                halign: "center"
+                valign: "center"
+
+
+                Button:
+                    id: 'page_un'
+                    text: 'Page Liste'
+                    on_press: root.manager.current = 'liste_citoyens'
+                    background_normal: 'SP.png'
+                    background_down: 'SP_press.png'
+                Button:
+                    text: 'page 2'
+                Button:
+                    text: 'page 3'
+                Button:
+                    text: 'page 4'
+
+
+
+<ListeCitoyensScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'DATA BASE CITOYENS'
+
+        RecycleView:
+            id: rv_citoyens
+            viewclass: "Label"
+            RecycleBoxLayout:
+                default_size: None, 50
+                default_size_hint: 1, None
+                size_hint_y: None
+                pos_hint: {'x': 0.5, 'y': 0.5}
+                height: self.minimum_height
+                orientation: "vertical"
+
+        Button:
+            text: "retour"
+            on_press: root.manager.current = 'accueil'
+
