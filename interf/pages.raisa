@@ -45,16 +45,16 @@
 
                 Button:
                     id: 'page_un'
-                    text: 'Page Liste'
+                    text: 'Citoyens'
                     on_press: root.manager.current = 'liste_citoyens'
                     background_normal: 'SP.png'
                     background_down: 'SP_press.png'
                 Button:
-                    text: 'page 2'
+                    text: 'Enquetes'
                 Button:
-                    text: 'page 3'
+                    text: 'Preuves'
                 Button:
-                    text: 'page 4'
+                    text: 'Compte'
 
 
 
