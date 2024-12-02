@@ -1,13 +1,13 @@
 from datetime import  date, datetime
 import sqlite3
-from db.db import tout_creer
+
 
 
 
 
 
 class Citoyen :
-    def __init__(self, nom, prenom, nationalite, adresse,  date_naissance: date, date_mort = "vivant"):
+    def __init__(self, nom, prenom, nationalite, date_naissance: date, date_mort = "vivant",adresse = ""):
         self.nom = nom
         self.prenom = prenom
         self.nationalite = nationalite
@@ -38,18 +38,17 @@ class Citoyen :
 
 
     def ajouter_citoyen(self):
-        "sauvegarder un citoyen dans la db"
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect("enquete.db")
             cursor = connexion.cursor()
             age = self.definir_age() #faire la conversion avant enregistrement
-            date_naiss_str = self.date_naissance.strftime("%Y-/%m-/%d")
+            self.date_naissance = datetime.strptime(self.date_naissance, "%Y-%m-%d")
 
             cursor.execute(
                 """
-                INSERT INTO citoyen(nom, prenom, nationalite, adresse, date_naissance, date_mort, age)
+                INSERT INTO citoyen(nom, prenom, nationalite,  date_naissance, date_mort,adresse, age)
                 VALUES (?, ?, ?, ?, ?, ?,?)
-                """, (self.nom, self.prenom,self.nationalite, self.adresse, self.date_naissance, self.date_mort, age )
+                """, (self.nom, self.prenom,self.nationalite, self.date_naissance, self.date_mort, self.adresse, age )
             )
             connexion.commit()
             connexion.close()
@@ -60,7 +59,7 @@ class Citoyen :
 
     @staticmethod
     def recupere_liste_citoyen():
-        connexion = sqlite3.connect("db/enquete.db")
+        connexion = sqlite3.connect("enquete.db")
         cursor = connexion.cursor()
         cursor.execute("SELECT * FROM citoyen")
         tuples = cursor.fetchall()
@@ -79,7 +78,7 @@ class Citoyen :
 
 class Criminel(Citoyen) :
     def __init__(self, cId, nom, prenom, nationalite, adresse, date_naissance, antecedents, statut):
-        super().__init__( nom, prenom, nationalite, adresse, date_naissance)
+        super().__init__( nom, prenom, nationalite, date_naissance, adresse)
         self.cId = cId #clé étrangère qui lie au citoyen
         self.antecedents = antecedents
         self.statut = statut
@@ -87,7 +86,7 @@ class Criminel(Citoyen) :
     def creer_criminel(self):
         """sauvegarder le criminel dans la db """
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect("enquete.db")
             cursor = connexion.cursor()
 
             cursor.execute(
@@ -122,7 +121,7 @@ class Criminel(Citoyen) :
         
 
 
-    def ajouter_crime(self, enquete):
+    #def ajouter_crime(self, enquete):
         """
         Associe un criminel à un crime dans une enquête
 
@@ -133,7 +132,7 @@ class Criminel(Citoyen) :
 
 
     def modifier_criminel(self):
-
+        pass
 
 
 

@@ -1,5 +1,7 @@
 import sqlite3
 
+from citoyen.citoyen import Citoyen
+
 
 def tout_creer():
     creer_table_temoin()
@@ -234,3 +236,13 @@ statut TEXT NOT NULL
 
 if __name__ == "__main__":
     tout_creer()
+    # Ajouter un citoyen
+    """citoyen1 = Citoyen(
+        nom="Diallo",
+        prenom="Hassan",
+        nationalite="Belge",
+        adresse="",
+        date_naissance="2002-11-21"
+    )
+    citoyen1.ajouter_citoyen()"""
+

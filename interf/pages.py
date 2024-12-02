@@ -4,7 +4,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.recycleview import RecycleView
-from db.db import tout_creer
 
 #self classes
 from citoyen.citoyen import Citoyen, Criminel
@@ -44,27 +43,5 @@ class PoliceApp(App):
         return sm
 
 if __name__ == '__main__':
-
-    # Ajouter un citoyen
-    citoyen1 = Citoyen(
-        nom="Dupont",
-        prenom="Jean",
-        nationalite="Française",
-        adresse="123 Rue de Paris",
-        date_naissance="1980-01-01"
-    )
-    citoyen1.ajouter_citoyen()
-    print("Citoyen ajouté avec succès.")
-
-    # Ajouter un autre citoyen
-    citoyen2 = Citoyen(
-        nom="Smith",
-        prenom="Anna",
-        nationalite="Américaine",
-        adresse="456 Avenue des États-Unis",
-        date_naissance="1990-05-12"
-    )
-    citoyen2.ajouter_citoyen()
-    print("Citoyen ajouté avec succès.")
 
     PoliceApp().run()
