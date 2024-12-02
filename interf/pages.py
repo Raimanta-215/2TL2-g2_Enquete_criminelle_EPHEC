@@ -44,7 +44,7 @@ class PoliceApp(App):
         return sm
 
 if __name__ == '__main__':
-    Citoyen.creer_table()
+
     # Ajouter un citoyen
     citoyen1 = Citoyen(
         nom="Dupont",

@@ -53,6 +53,7 @@ class Citoyen :
             )
             connexion.commit()
             connexion.close()
+            print(f"Le citoyen {self.nom_complet()} à été enregistré")
         except sqlite3.OperationalError as e:
             print(e)
 
@@ -77,8 +78,62 @@ class Citoyen :
 
 
 class Criminel(Citoyen) :
-    def __init__(self,num_nat, nom, prenom, adresse, date_naissance, antecedents, statut):
-        super().__init__(num_nat, nom, prenom, adresse, date_naissance)
+    def __init__(self, cId, nom, prenom, nationalite, adresse, date_naissance, antecedents, statut):
+        super().__init__( nom, prenom, nationalite, adresse, date_naissance)
+        self.cId = cId #clé étrangère qui lie au citoyen
         self.antecedents = antecedents
         self.statut = statut
 
+    def creer_criminel(self):
+        """sauvegarder le criminel dans la db """
+        try:
+            connexion = sqlite3.connect("db/enquete.db")
+            cursor = connexion.cursor()
+
+            cursor.execute(
+                """
+                INSERT INTO criminel(cId, statut)
+                VALUES (?, ?)
+                """, (self.cId, self.statut)
+            )
+            connexion.commit()
+            connexion.close()
+            print(f"Le criminel {self.nom_complet()} à été enregistré")
+        except sqlite3.OperationalError as e:
+            print(e)
+
+    def afficher_antecedents(self):
+
+
+    def ajouter_crime(self, enquete):
+        """
+        Associe un criminel à un crime dans une enquête
+
+        PRE:
+        POST:
+
+        """
+
+
+    def modifier_criminel(self):
+
+
+
+
+
+
+
+class Victime(Citoyen):
+    pass
+
+class Temoin(Citoyen):
+    pass
+
+class Suspect(Citoyen):
+    pass
+
+class Expert(Citoyen):
+    pass
+
+class Inspecteur(Citoyen):
+    pass

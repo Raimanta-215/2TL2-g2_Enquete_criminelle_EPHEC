@@ -232,4 +232,4 @@ statut TEXT NOT NULL
     connexion.close()
 
 if __name__ == "__main__":
-    creer_table_citoyens()
+    tout_creer()
