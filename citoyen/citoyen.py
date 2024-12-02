@@ -118,21 +118,28 @@ class Criminel(Citoyen) :
                 print(f"Aucun antécédent trouvé pour {self.nom_complet()}")
         except sqlite3.OperationalError as e:
             print(e)
-        
+
+    def modifier_criminel(self, statut):
+        """Modifier informations du criminel"""
+
+        try:
+            connexion = sqlite3.connect("db/enquete.db")
+            cursor = connexion.cursor()
+
+            query = """UPDATE criminel SET statut = ? WHERE cId = ?"""
+            cursor.execute(query, (statut, self.cId))
+            connexion.commit()
+            connexion.close()
+
+            self.statut = statut
+            print(f"Le statut de {self.nom_complet()} a été modifier")
+        except sqlite3.OperationalError as e:
+            print(e)
 
 
-    #def ajouter_crime(self, enquete):
-        """
-        Associe un criminel à un crime dans une enquête
-
-        PRE:
-        POST:
-
-        """
 
 
-    def modifier_criminel(self):
-        pass
+
 
 
 
