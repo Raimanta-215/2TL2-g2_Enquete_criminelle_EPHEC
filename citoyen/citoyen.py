@@ -53,6 +53,7 @@ class Citoyen :
             )
             connexion.commit()
             connexion.close()
+            print(f"Le citoyen {self.nom_complet()} à été enregistré")
         except sqlite3.OperationalError as e:
             print(e)
 
@@ -79,6 +80,46 @@ class Citoyen :
 class Criminel(Citoyen) :
     def __init__(self,num_nat, nom, prenom, adresse, date_naissance, antecedents, statut):
         super().__init__(num_nat, nom, prenom, adresse, date_naissance)
+        self.num_nat = num_nat
         self.antecedents = antecedents
         self.statut = statut
 
+    def creer_criminel(self):
+        """sauvegarder le criminel dans la db """
+        try:
+            connexion = sqlite3.connect("db/enquete.db")
+            cursor = connexion.cursor()
+            age = self.definir_age() #faire la conversion avant enregistrement
+            date_naiss_str = self.date_naissance.strftime("%Y-/%m-/%d")
+
+            cursor.execute(
+                """
+                INSERT INTO criminel(num_nat, nom, prenom,adresse, date_naissance, antecedents, statut, age)
+                VALUES (?, ?, ?, ?, ?, ?,?,?)
+                """, (self.num_nat, self.nom, self.prenom, self.adresse, self.date_naissance, self.antecedents, self.statut, self.age)
+            )
+            connexion.commit()
+            connexion.close()
+            print(f"Le criminel {self.nom_complet()} à été enregistré")
+        except sqlite3.OperationalError as e:
+            print(e)
+        
+
+
+
+
+
+class Victime(Citoyen):
+    pass
+
+class Temoin(Citoyen):
+    pass
+
+class Suspect(Citoyen):
+    pass
+
+class Expert(Citoyen):
+    pass
+
+class Inspecteur(Citoyen):
+    pass
