@@ -103,6 +103,23 @@ class Criminel(Citoyen) :
             print(e)
 
     def afficher_antecedents(self):
+        """afficher les antécédents du criminel depuis db criminel_enquete"""
+        try:
+            connexion = sqlite3.connect("db/enquete.db")
+            cursor = connexion.cursor()
+
+            cursor.execute("SELECT * FROM criminel_enquete WHERE cId = ?", (self.cId,))
+            result = cursor.fetchall()
+            connexion.close()
+
+            if result:
+                antecedents = result[0]
+                print(f"Antécédents de {self.nom_complet()} : {antecedents}")
+            else:
+                print(f"Aucun antécédent trouvé pour {self.nom_complet()}")
+        except sqlite3.OperationalError as e:
+            print(e)
+        
 
 
     def ajouter_crime(self, enquete):
