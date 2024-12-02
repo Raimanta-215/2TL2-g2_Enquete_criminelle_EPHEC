@@ -78,9 +78,9 @@ class Citoyen :
 
 
 class Criminel(Citoyen) :
-    def __init__(self,num_nat, nom, prenom, adresse, date_naissance, antecedents, statut):
-        super().__init__(num_nat, nom, prenom, adresse, date_naissance)
-        self.num_nat = num_nat
+    def __init__(self, cId, nom, prenom, nationalite, adresse, date_naissance, antecedents, statut):
+        super().__init__( nom, prenom, nationalite, adresse, date_naissance)
+        self.cId = cId #clé étrangère qui lie au citoyen
         self.antecedents = antecedents
         self.statut = statut
 
@@ -89,21 +89,35 @@ class Criminel(Citoyen) :
         try:
             connexion = sqlite3.connect("db/enquete.db")
             cursor = connexion.cursor()
-            age = self.definir_age() #faire la conversion avant enregistrement
-            date_naiss_str = self.date_naissance.strftime("%Y-/%m-/%d")
 
             cursor.execute(
                 """
-                INSERT INTO criminel(num_nat, nom, prenom,adresse, date_naissance, antecedents, statut, age)
-                VALUES (?, ?, ?, ?, ?, ?,?,?)
-                """, (self.num_nat, self.nom, self.prenom, self.adresse, self.date_naissance, self.antecedents, self.statut, self.age)
+                INSERT INTO criminel(cId, statut)
+                VALUES (?, ?)
+                """, (self.cId, self.statut)
             )
             connexion.commit()
             connexion.close()
             print(f"Le criminel {self.nom_complet()} à été enregistré")
         except sqlite3.OperationalError as e:
             print(e)
-        
+
+    def afficher_antecedents(self):
+
+
+    def ajouter_crime(self, enquete):
+        """
+        Associe un criminel à un crime dans une enquête
+
+        PRE:
+        POST:
+
+        """
+
+
+    def modifier_criminel(self):
+
+
 
 
 
