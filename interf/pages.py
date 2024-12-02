@@ -4,9 +4,10 @@ from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.recycleview import RecycleView
+from db.db import tout_creer
 
 #self classes
-from citoyen.citoyen import Citoyen
+from citoyen.citoyen import Citoyen, Criminel
 
 
 Window.clearcolor = (182/255,208/255,226/255,1)
@@ -16,7 +17,7 @@ class AccueilScreen(Screen):
 
 class ListeCitoyensScreen(Screen):
 
-    def affiche_citoyens(self):
+   def affiche_citoyens(self):
         liste = Citoyen.recupere_liste_citoyen()
 
         citoyens_form = []
@@ -25,23 +26,25 @@ class ListeCitoyensScreen(Screen):
 
         for citoyen in citoyens_form:
             self.ids.rv_citoyens.data = [citoyen]
-
-    def on_pre_enter(self):
+   def on_pre_enter(self):
         self.affiche_citoyens()
 
 
-class PipiApp(App):
+class EnqueteForm(Screen):
+    pass
+
+class PoliceApp(App):
     def build(self):
         Builder.load_file("pages.raisa")
         sm = ScreenManager(transition=WipeTransition())
         sm.add_widget(AccueilScreen(name='accueil'))
         sm.add_widget(ListeCitoyensScreen(name='liste_citoyens'))
+        sm.add_widget(EnqueteForm(name='form'))
 
         return sm
 
 if __name__ == '__main__':
     Citoyen.creer_table()
-
     # Ajouter un citoyen
     citoyen1 = Citoyen(
         nom="Dupont",
@@ -64,4 +67,4 @@ if __name__ == '__main__':
     citoyen2.ajouter_citoyen()
     print("Citoyen ajouté avec succès.")
 
-    PipiApp().run()
+    PoliceApp().run()
