@@ -4,6 +4,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.recycleview import RecycleView
+#from kivymd.app import MDApp
+#from kivymd.uix.pickers import MDDatePicker
 
 #self classes
 from citoyen.citoyen import Citoyen, Criminel
@@ -34,15 +36,39 @@ class ListeCitoyensScreen(Screen):
 class EnqueteForm(Screen):
     pass
 
+class AjouterCitoyen(Screen):
+    def submit_form(self):
+        print(self.ids.nom_cit.text)
+        nom = self.ids.nom_cit.text
+        prenom = self.ids.prenom_cit.text
+        nationalite = self.ids.nationalite_cit.text
+        adresse = self.ids.adresse_cit.text
+        #dateNaiss = self.ids.date_cit.text
+        try:
+            citoyen = Citoyen(
+            nom=nom,
+            prenom=prenom ,
+            nationalite=nationalite ,
+            adresse=adresse,
+            date_naissance= "2002-11-21" ,
+
+            )
+            citoyen.ajouter_citoyen()
+            self.ids.citValide = "citoyen rajouté"
+        except ValueError as e:
+            print(e)
+
 class PoliceApp(App):
     def build(self):
         Builder.load_file("pages.raisa")
         sm = ScreenManager(transition=WipeTransition())
         sm.add_widget(AccueilScreen(name='accueil'))
         sm.add_widget(ListeCitoyensScreen(name='liste_citoyens'))
+        sm.add_widget(AjouterCitoyen(name='ajoutCitoyen'))
         sm.add_widget(EnqueteForm(name='form'))
 
         return sm
+
 
 if __name__ == '__main__':
 

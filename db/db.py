@@ -2,6 +2,7 @@ import sqlite3
 
 from citoyen.citoyen import Citoyen
 
+DB_FILE = __file__ +"/interf/enquete.db"
 
 def tout_creer():
     creer_table_temoin()
@@ -64,7 +65,7 @@ FOREIGN KEY (eId) REFERENCES citoyen(cId)
     connexion.close()
 
 def creer_table_victime():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(DB_FILE)
     cursor = connexion.cursor()
     cursor.execute(
         f"""

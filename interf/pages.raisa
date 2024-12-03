@@ -76,4 +76,46 @@
         Button:
             text: "retour"
             on_press: root.manager.current = 'accueil'
+        Button:
+            texte: "ajouter citoyen"
+            on_press: root.manager.current = 'ajoutCitoyen'
+
+
+
+<AjouterCitoyen>:
+    color : "black"
+    orientation: "horizontal"
+    GridLayout:
+        row : 10
+        cols : 1
+        Label:
+            text: "Nom:"
+        TextInput:
+            id: nom_cit
+            hint_text: "Entrez  nom"
+        Label:
+            text: "prenom:"
+        TextInput:
+            id: prenom_cit
+            hint_text: "Entrez prenom"
+        Label:
+            text: "nationalite"
+        TextInput:
+            id: nationalite_cit
+            hint_text: "Entrez nationalite"
+        Label:
+            text: "addresse"
+        TextInput:
+            id: adresse_cit
+            hint_text: "Entrez l'adresse"
+        Label:
+            id: citValide
+            text:
+
+        Button:
+            text: "retour"
+            on_press: root.manager.current ='liste_citoyens'
+        Button:
+            text: "Soumettre"
+            on_press: root.submit_form()
 
