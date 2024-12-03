@@ -59,20 +59,22 @@ class Citoyen :
 
     @staticmethod
     def recupere_liste_citoyen():
-        connexion = sqlite3.connect("enquete.db")
+        connexion = sqlite3.connect("../interf/enquete.db")
         cursor = connexion.cursor()
-        cursor.execute("SELECT * FROM citoyen")
+        cursor.execute("""SELECT * FROM citoyen""")
         tuples = cursor.fetchall()
         connexion.close()
+        citoyens = []
+        for c in tuples:
+            print(c)
+            citoyens.append(
+                Citoyen(
+                    nom=c[1],prenom=c[2], nationalite=c[3],
+                    date_naissance=c[4], date_mort=c[5],adresse=c[6]
+                ))
 
-        citoyens = [
-            Citoyen(
-                nom=row[0],prenom=[1], nationalite=[2],adresse=[3],
-                date_naissance=[4], date_mort=[5]
 
-            )
-            for row in tuples
-        ]
+
         return citoyens
 
 
