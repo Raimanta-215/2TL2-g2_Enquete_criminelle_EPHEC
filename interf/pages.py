@@ -16,18 +16,20 @@ class AccueilScreen(Screen):
 
 class ListeCitoyensScreen(Screen):
 
-   def affiche_citoyens(self):
+    def affiche_citoyens(self):
+        # Récupérer la liste des citoyens
         liste = Citoyen.recupere_liste_citoyen()
+        print(liste)
+        # Formater les citoyens pour l'affichage
+        citoyens_form = [
+            {"text": f"{c.nom} {c.prenom} - {c.nationalite}"} for c in liste
+        ]
 
-        citoyens_form = []
-        for c in liste:
-            citoyens_form.append([f"{c.nom_complet()} - {c.nationalite}"])
+        # Mettre à jour les données de la RecyclerView
+        self.ids.rv_citoyens.data = citoyens_form
 
-        for citoyen in citoyens_form:
-            self.ids.rv_citoyens.data = [citoyen]
-   def on_pre_enter(self):
+    def on_pre_enter(self):
         self.affiche_citoyens()
-
 
 class EnqueteForm(Screen):
     pass

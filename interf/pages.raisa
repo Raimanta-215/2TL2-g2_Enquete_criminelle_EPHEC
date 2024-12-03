@@ -61,19 +61,17 @@
 <ListeCitoyensScreen>:
     BoxLayout:
         orientation: 'vertical'
-        Label:
-            text: 'DATA BASE CITOYENS'
-
         RecycleView:
+            color : "black"
             id: rv_citoyens
-            viewclass: "Label"
+            viewclass: 'Label'
             RecycleBoxLayout:
-                default_size: None, 50
+
+                orientation: 'vertical'
+                default_size: None, dp(56)
                 default_size_hint: 1, None
                 size_hint_y: None
-                pos_hint: {'x': 0.5, 'y': 0.5}
                 height: self.minimum_height
-                orientation: "vertical"
 
         Button:
             text: "retour"
