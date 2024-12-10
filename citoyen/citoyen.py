@@ -7,7 +7,6 @@ import os
 CHEMIN = os.path.join(os.path.dirname( os.path.dirname( __file__ )), "interf", "enquete.db")
 
 
-
 class Citoyen :
     def __init__(self, nom, prenom, nationalite, date_naissance: date, date_mort = "vivant",adresse = ""):
         self.nom = nom
@@ -100,12 +99,36 @@ class Citoyen :
 
 
 class Criminel(Citoyen) :
-    def __init__(self, nom, prenom, nationalite, adresse, date_naissance, date_mort, statut):
+    def __init__(self, nom, prenom, nationalite, adresse, date_naissance, date_mort, statut=None):
         super().__init__( nom, prenom, nationalite, date_naissance, date_mort, adresse)
         self.statut = statut
 
-    def creer_criminel(self, cId, eId, typeCriminel, idCriminel):
+
+    @staticmethod
+    def charger_criminel_depuis_db(cid):
+
+        connexion = sqlite3.connect(CHEMIN)
+        cursor = connexion.cursor()
+        cursor.execute("SELECT * FROM citoyen WHERE cId = ?", (cid,))
+        data = cursor.fetchone()
+        cursor.close()
+        connexion.close()
+        if data is None:
+            raise ValueError(f"Aucun criminel trouvé avec l'ID {cid}")
+        return Criminel(
+            nom=data[1],
+            prenom=data[2],
+            nationalite=data[3],
+            date_naissance=data[4],
+            date_mort=data[5],
+            adresse=data[6],
+        )
+
+
+
+    def ajouter_criminel(self, cid):
         """sauvegarder le criminel dans la db """
+
         try:
             connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
@@ -114,13 +137,9 @@ class Criminel(Citoyen) :
                 """
                 INSERT INTO criminel(cId, statut)
                 VALUES (?, ?)
-                """, (cId, self.statut)
+                """, (cid, self.statut)
             )
-            cursor.execute(
-                """
-                INSERT INTO criminel_enquete(idCriminel, eId, typeCriminel) 
-                VALUES( ?, ?, ?) """, (idCriminel, eId, typeCriminel))
-            connexion.commit()
+
             cursor.close()
             connexion.close()
 
@@ -130,6 +149,27 @@ class Criminel(Citoyen) :
         except sqlite3.IntegrityError as e:
             print(f"Erreur d'intégrité : {e}")
 
+    @staticmethod
+    def recupere_liste_criminels():
+        connexion = sqlite3.connect(CHEMIN)
+        cursor = connexion.cursor()
+        cursor.execute("""SELECT citoyen.nom, citoyen.prenom, citoyen.age, criminel.statut
+                    FROM criminel
+                    JOIN citoyen ON criminel.cId = citoyen.cId;""")
+        tuples = cursor.fetchall()
+        connexion.close()
+        criminels = []
+        for c in tuples:
+            print(c)
+            Criminel(
+                nom=c[0],
+                prenom=c[1],
+                date_naissance=c[2],
+                statut=c[3]
+            )
+
+
+        return criminels
 
     def modifier_criminel(self,cId, statut):
         """Modifier le statut du criminel"""
@@ -227,5 +267,4 @@ class Inspecteur(Citoyen):
     pass
 
 
-if __name__== "__main__":
-    print(CHEMIN)
+

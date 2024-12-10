@@ -20,7 +20,7 @@ class ListeCitoyensScreen(Screen):
         # Récupérer la liste des citoyens
         liste = Citoyen.recupere_liste_citoyen()
         print(liste)
-        # Formater les citoyens pour l'affichage
+
         citoyens_form = [
             {"text": f"{c.nom} {c.prenom} - {c.nationalite}"} for c in liste
         ]
@@ -30,6 +30,7 @@ class ListeCitoyensScreen(Screen):
 
     def on_pre_enter(self):
         self.affiche_citoyens()
+
 
 
 class EnqueteForm(Screen):
@@ -59,6 +60,42 @@ class AjouterCitoyen(Screen):
             print(e)
 
 
+class ListeCriminelsScreen(Screen):
+
+    def affiche_criminels(self):
+        liste = Criminel.recupere_liste_criminels()
+        print(liste)
+
+        criminels_form = [
+            {"text": f"{c.nom} {c.prenom} - {c.nationalite} - {c.statut}"} for c in liste
+        ]
+
+
+        self.ids.rv_criminels.data = criminels_form
+
+    def on_pre_enter(self):
+        self.affiche_criminels()
+
+class AjouterCriminel(Screen):
+
+    def chercher_citoyen(self):
+
+        num_nat = self.ids.cit_id.text
+        print(num_nat)
+        try:
+            criminel = Criminel.charger_criminel_depuis_db(num_nat)
+            self.ids.affiche_cit.text = f"{criminel.nom} {criminel.prenom} - {criminel.nationalite} - {criminel.statut}"
+            return criminel
+        except ValueError as e:
+            print(e)
+
+    def ajouter_criminel(self):
+        criminel = self.chercher_citoyen()
+        num_nat = self.ids.cit_id.text
+        criminel.statut = "recherché"
+        criminel.ajouter_criminel(num_nat)
+
+
 class PoliceApp(App):
     def build(self):
         Builder.load_file("pages.raisa")
@@ -67,6 +104,9 @@ class PoliceApp(App):
         sm.add_widget(ListeCitoyensScreen(name='liste_citoyens'))
         sm.add_widget(AjouterCitoyen(name='ajoutCitoyen'))
         sm.add_widget(EnqueteForm(name='form'))
+        sm.add_widget(ListeCriminelsScreen(name='liste_criminels'))
+        sm.add_widget(AjouterCriminel(name='ajoutCriminel'))
+
 
         return sm
 

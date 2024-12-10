@@ -86,7 +86,7 @@
                     font_size: 20
                     bold : True
                     text: 'ENQUETE'
-                    on_press: root.manager.current = 'liste_citoyens'
+                    on_press: root.manager.current = 'accueil'
                     background_normal: 'enq.webp'
                 Button:
                     id : page_trois
@@ -98,7 +98,7 @@
                     font_size: 20
                     bold : True
                     text: 'Preuves'
-                    on_press: root.manager.current = 'liste_citoyens'
+                    on_press: root.manager.current = 'accueil'
                     background_normal: 'pre.jpg'
                 Button:
                     id: page_quatre
@@ -110,7 +110,7 @@
                     font_size: 20
                     bold : True
                     text: 'Compte'
-                    on_press: root.manager.current = 'liste_citoyens'
+                    on_press: root.manager.current = 'accueil'
                     background_normal: 'use.webp'
 
 <ListeCitoyensScreen>:
@@ -180,6 +180,11 @@
                     text: "ajouter citoyen"
                     on_press: root.manager.current = 'ajoutCitoyen'
                     size_hint: 0.25, 0.1  # Redimensionner le bouton ajouter citoyen
+                Button:
+                    text: "liste criminels"
+                    on_press: root.manager.current = 'liste_criminels'
+                    size_hint: 0.25, 0.1  # Redimensionner le bouton ajouter citoyen
+
 
 
 <AjouterCitoyen>:
@@ -255,8 +260,144 @@
                 on_press: root.sauvegarder_citoyen()
             Button:
                 text: "Annuler"
-                on_press: root.manager.current = 'liste_citoyens'
+                on_press: root.manager.current = 'ajouter_citoyen'
             Button:
                 text: "Retour"
                 size : 30, 80
                 on_press: root.manager.current = 'liste_citoyens'
+
+
+<ListeCriminelsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        canvas.before:
+            Color:
+                rgb: 0.05, 0.1, 0.3  # Couleur de fond bleu foncé
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+            Color:
+                rgb: 0.05, 0.1, 0.18
+            Rectangle:
+                size: self.width, dp(100)
+                pos: self.x, self.top - dp(100)
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(100)  # Même hauteur que le rectangle
+            padding: 10
+            spacing: 20
+
+            Image:
+                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                size_hint: 0.6, 1  # Ajuste la taille du logo
+                pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
+
+            Label:
+                text: "Criminels"
+                font_size: 60
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                color: (173/255, 154/255, 84/255, 1)
+                size_hint_x: 0.8
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 10
+            spacing: 10
+            RecycleView:
+                color: "black"
+                id: rv_criminels
+                viewclass: 'Label'
+                RecycleBoxLayout:
+                    orientation: 'vertical'
+                    default_size: None, dp(56)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: 10
+
+                Button:
+                    text: "retour"
+                    on_press: root.manager.current = 'accueil'
+                    size_hint: 0.25, 0.1  # Redimensionner le bouton retour
+                Button:
+                    text: "ajouter criminel"
+                    on_press: root.manager.current = 'ajoutCriminel'
+                    size_hint: 0.25, 0.1  # Redimensionner le bouton ajouter citoyen
+
+<AjouterCriminel>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        canvas.before:
+            Color:
+                rgb: 0.05, 0.1, 0.3  # Couleur de fond bleu foncé
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+            Color:
+                rgb: 0.05, 0.1, 0.18
+            Rectangle:
+                size: self.width, dp(100)
+                pos: self.x, self.top - dp(100)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(100)  # Même hauteur que le rectangle
+            padding: 10
+            spacing: 20
+
+            Image:
+                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                size_hint: 0.6, 1  # Ajuste la taille du logo
+                pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
+            Label:
+                text: "Ajouter criminel"
+                font_size: 60
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                color: (173/255, 154/255, 84/255, 1)
+                size_hint_x: 0.8
+
+        GridLayout:
+            cols: 3
+            spacing: 10
+            Label:
+                text: "numero national"
+
+            TextInput:
+                id: cit_id
+                size_hint: 0.25, 0.1
+
+            Button:
+                text: "recherche"
+                on_press: root.chercher_citoyen()
+                size_hint: 0.25, 0.1
+            Label:
+                id: affiche_cit
+                size_hint: 0.25, 0.1
+            Button:
+                text: "retour"
+                on_press: root.manager.current = 'accueil'
+                size_hint: 0.25, 0.1
+            Button:
+                text: "ajouter criminel"
+                on_press: root.ajouter_criminel()
+                size_hint: 0.25, 0.1
+
+
