@@ -1,43 +1,62 @@
-<Button>:
-    size_hint: None, None
-    width: 200
-    height: 200
-    background_normal: "red"
-    background_down: "white"
-    color: "black"
-
-
+<ImageLogo@Image>
+    allow_stretch: True
+    keep_ratio: True
 
 <AccueilScreen>:
     BoxLayout:
-        size_hint: 1, 1
         orientation: 'vertical'
+        padding: 10
+        spacing: 10
 
-        Label:
-            text: "Comissariat de la Police de Piltover"
-            font_size: 60
-            bold: True
-            halign: 'center'
-            valigne: 'top'
-            color: (165/255,0/255,85/255,1)
-            size_hint: 1, 0.2
+
+        canvas.before:
+            # Fond bleu pour tout l'écran
+            Color:
+                rgb: 0.05, 0.1, 0.3
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+            # Rectangle en haut pour le bandeau
+            Color:
+                rgb: 0.05, 0.1, 0.18
+            Rectangle:
+                size: self.width, dp(100)
+                pos: self.x, self.top - dp(100)
         BoxLayout:
-            #canvas.before:
-                #Color:
-                    #rgba: 0,0.5,0,1
-                #Rectangle:
-                    #size: self.size
-                    #pos: self.pos
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(100)  # Même hauteur que le rectangle
+            padding: 10
+            spacing: 20
+
+            Label:
+                text: "Comissariat de la Police de Piltover"
+                font_size: 60
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                color: (173/255, 154/255, 84/255, 1)
+                size_hint_x: 0.8  # Le texte occupe 80% de l'espace disponible
+
+            ImageLogo:
+                source: 'police_piltover.jpg'  # Remplacez par le chemin vers votre image
+                size_hint_x: 0.2  # L'image occupe 20% de l'espace disponible
+                allow_stretch: True
+                keep_ratio: True
+
+
+
+        BoxLayout:
+
             oreintation: 'horizontal'
-            size_hint: 0.5,1
+            size_hint: 0.5, 1
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
-
             GridLayout:
-
                 cols: 2
                 rows: 2
-                padding : 150
+                padding: 150
                 spacing: 50
                 halign: "center"
                 valign: "center"
@@ -45,77 +64,199 @@
 
                 Button:
                     id: 'page_un'
-                    text: 'Citoyens'
+                    background_down: "white"
+                    color: "white"
+                    valign: "top"  # Align text at the top
+                    text_size: self.size  # Adjust text size to fit within button
+                    halign: 'center'
+                    font_size: 20
+                    allow_stretch: True
+                    keep_ratio: True
+                    bold : True
+                    text: 'CITOYENS'
                     on_press: root.manager.current = 'liste_citoyens'
-                    background_normal: 'SP.png'
-                    background_down: 'SP_press.png'
+                    background_normal: 'cit.webp'
                 Button:
-                    text: 'Enquetes'
+                    id: page_deux
+                    background_down: "white"
+                    color: "white"
+                    valign: "top"  # Align text at the top
+                    text_size: self.size  # Adjust text size to fit within button
+                    halign: 'center'
+                    font_size: 20
+                    bold : True
+                    text: 'ENQUETE'
+                    on_press: root.manager.current = 'liste_citoyens'
+                    background_normal: 'enq.webp'
                 Button:
+                    id : page_trois
+                    background_down: "white"
+                    color: "white"
+                    valign: "top"  # Align text at the top
+                    text_size: self.size  # Adjust text size to fit within button
+                    halign: 'center'
+                    font_size: 20
+                    bold : True
                     text: 'Preuves'
+                    on_press: root.manager.current = 'liste_citoyens'
+                    background_normal: 'pre.jpg'
                 Button:
+                    id: page_quatre
+                    background_down: "white"
+                    color: "white"
+                    valign: "top"  # Align text at the top
+                    text_size: self.size  # Adjust text size to fit within button
+                    halign: 'center'
+                    font_size: 20
+                    bold : True
                     text: 'Compte'
-
-
+                    on_press: root.manager.current = 'liste_citoyens'
+                    background_normal: 'use.webp'
 
 <ListeCitoyensScreen>:
     BoxLayout:
         orientation: 'vertical'
-        RecycleView:
-            color : "black"
-            id: rv_citoyens
-            viewclass: 'Label'
-            RecycleBoxLayout:
+        padding: 10
+        spacing: 10
 
-                orientation: 'vertical'
-                default_size: None, dp(56)
-                default_size_hint: 1, None
-                size_hint_y: None
-                height: self.minimum_height
+        canvas.before:
+            Color:
+                rgb: 0.05, 0.1, 0.3  # Couleur de fond bleu foncé
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-        Button:
-            text: "retour"
-            on_press: root.manager.current = 'accueil'
-        Button:
-            texte: "ajouter citoyen"
-            on_press: root.manager.current = 'ajoutCitoyen'
+            Color:
+                rgb: 0.05, 0.1, 0.18
+            Rectangle:
+                size: self.width, dp(100)
+                pos: self.x, self.top - dp(100)
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(100)  # Même hauteur que le rectangle
+            padding: 10
+            spacing: 20
 
+            Image:
+                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                size_hint: 0.6, 1  # Ajuste la taille du logo
+                pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
+
+            Label:
+                text: "Citoyens"
+                font_size: 60
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                color: (173/255, 154/255, 84/255, 1)
+                size_hint_x: 0.8
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 10
+            spacing: 10
+            RecycleView:
+                color: "black"
+                id: rv_citoyens
+                viewclass: 'Label'
+                RecycleBoxLayout:
+                    orientation: 'vertical'
+                    default_size: None, dp(56)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: 10
+
+                Button:
+                    text: "retour"
+                    on_press: root.manager.current = 'accueil'
+                    size_hint: 0.25, 0.1  # Redimensionner le bouton retour
+                Button:
+                    text: "ajouter citoyen"
+                    on_press: root.manager.current = 'ajoutCitoyen'
+                    size_hint: 0.25, 0.1  # Redimensionner le bouton ajouter citoyen
 
 
 <AjouterCitoyen>:
-    color : "black"
-    orientation: "horizontal"
-    GridLayout:
-        row : 10
-        cols : 1
-        Label:
-            text: "Nom:"
-        TextInput:
-            id: nom_cit
-            hint_text: "Entrez  nom"
-        Label:
-            text: "prenom:"
-        TextInput:
-            id: prenom_cit
-            hint_text: "Entrez prenom"
-        Label:
-            text: "nationalite"
-        TextInput:
-            id: nationalite_cit
-            hint_text: "Entrez nationalite"
-        Label:
-            text: "addresse"
-        TextInput:
-            id: adresse_cit
-            hint_text: "Entrez l'adresse"
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        canvas.before:
+            Color:
+                rgb: 0.05, 0.1, 0.3  # Couleur de fond bleu foncé
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+            Color:
+                rgb: 0.05, 0.1, 0.18
+            Rectangle:
+                size: self.width, dp(100)
+                pos: self.x, self.top - dp(100)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(100)  # Même hauteur que le rectangle
+            padding: 10
+            spacing: 20
+
+            Image:
+                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                size_hint: 0.6, 1  # Ajuste la taille du logo
+                pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
+            Label:
+                text: "Ajouter citoyen"
+                font_size: 60
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                color: (173/255, 154/255, 84/255, 1)
+                size_hint_x: 0.8
+
+        GridLayout:
+            cols: 2
+            spacing: 10
+            Label:
+                text: "Nom:"
+            TextInput:
+                id: nom_cit
+            Label:
+                text: "Prénom:"
+            TextInput:
+                id: prenom_cit
+            Label:
+                text: "Nationalité:"
+            TextInput:
+                id: nationalite_cit
+            Label:
+                text: "Adresse:"
+            TextInput:
+                id: adresse_cit
+            Label:
+                text: "Date de naissance:"
+            TextInput:
+                id: date_naissance_cit
         Label:
             id: citValide
-            text:
-
-        Button:
-            text: "retour"
-            on_press: root.manager.current ='liste_citoyens'
-        Button:
-            text: "Soumettre"
-            on_press: root.submit_form()
-
+            text: ""
+            color: 1, 0, 0, 1
+        BoxLayout:
+            size_hint_y: 0.2
+            Button:
+                text: "Sauvegarder"
+                on_press: root.sauvegarder_citoyen()
+            Button:
+                text: "Annuler"
+                on_press: root.manager.current = 'liste_citoyens'
+            Button:
+                text: "Retour"
+                size : 30, 80
+                on_press: root.manager.current = 'liste_citoyens'

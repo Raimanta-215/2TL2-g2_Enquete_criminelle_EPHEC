@@ -1,4 +1,3 @@
-#kiwi lib
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.lang import Builder
@@ -11,10 +10,9 @@ from kivy.uix.recycleview import RecycleView
 from citoyen.citoyen import Citoyen, Criminel
 
 
-Window.clearcolor = (182/255,208/255,226/255,1)
-
 class AccueilScreen(Screen):
     pass
+
 
 class ListeCitoyensScreen(Screen):
 
@@ -33,11 +31,13 @@ class ListeCitoyensScreen(Screen):
     def on_pre_enter(self):
         self.affiche_citoyens()
 
+
 class EnqueteForm(Screen):
     pass
 
+
 class AjouterCitoyen(Screen):
-    def submit_form(self):
+    def sauvegarder_citoyen(self):
         print(self.ids.nom_cit.text)
         nom = self.ids.nom_cit.text
         prenom = self.ids.prenom_cit.text
@@ -46,17 +46,18 @@ class AjouterCitoyen(Screen):
         #dateNaiss = self.ids.date_cit.text
         try:
             citoyen = Citoyen(
-            nom=nom,
-            prenom=prenom ,
-            nationalite=nationalite ,
-            adresse=adresse,
-            date_naissance= "2002-11-21" ,
+                nom=nom,
+                prenom=prenom,
+                nationalite=nationalite,
+                adresse=adresse,
+                date_naissance="2002-11-21",
 
             )
             citoyen.ajouter_citoyen()
             self.ids.citValide = "citoyen rajouté"
         except ValueError as e:
             print(e)
+
 
 class PoliceApp(App):
     def build(self):
@@ -71,5 +72,4 @@ class PoliceApp(App):
 
 
 if __name__ == '__main__':
-
     PoliceApp().run()

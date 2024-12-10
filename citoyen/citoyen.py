@@ -1,8 +1,10 @@
 from datetime import  date, datetime
 import sqlite3
+import os
 
 
 
+CHEMIN = os.path.join(os.path.dirname( os.path.dirname( __file__ )), "interf", "enquete.db")
 
 
 
@@ -41,7 +43,7 @@ class Citoyen :
 
     def ajouter_citoyen(self):
         try:
-            connexion = sqlite3.connect("enquete.db")
+            connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
             age = self.definir_age() #faire la conversion avant enregistrement
             self.date_naissance = datetime.strptime(self.date_naissance, "%Y-%m-%d")
@@ -61,7 +63,7 @@ class Citoyen :
 
     @staticmethod
     def recupere_liste_citoyen():
-        connexion = sqlite3.connect("../interf/enquete.db")
+        connexion = sqlite3.connect(CHEMIN)
         cursor = connexion.cursor()
         cursor.execute("""SELECT * FROM citoyen""")
         tuples = cursor.fetchall()
@@ -82,7 +84,7 @@ class Citoyen :
     def afficher_antecedents(self):
         """afficher les antécédents du citoyen depuis db criminel_enquete"""
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
             cursor.execute("SELECT * FROM criminel_enquete WHERE cId = ?", (self.cId,))
             result = cursor.fetchall()
@@ -105,7 +107,7 @@ class Criminel(Citoyen) :
     def creer_criminel(self, cId, eId, typeCriminel, idCriminel):
         """sauvegarder le criminel dans la db """
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
 
             cursor.execute(
@@ -133,7 +135,7 @@ class Criminel(Citoyen) :
         """Modifier le statut du criminel"""
 
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
 
             query = """UPDATE criminel SET statut = ? WHERE cId = ?"""
@@ -161,7 +163,7 @@ class Victime(Citoyen):
     def creer_victim(self, cId, eId, cause, idVictime):
         """ creer la victime dans la db"""
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
             cursor.execute(
                 """
@@ -191,7 +193,7 @@ class Victime(Citoyen):
     def modifier_statut(self, statut, idVictime):
         """Modifier le statut de la victime"""
         try:
-            connexion = sqlite3.connect("db/enquete.db")
+            connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
 
             query = """ UPDATE victime SET statut = ? WHERE idVictime = ?"""
@@ -223,3 +225,7 @@ class Expert(Citoyen):
 
 class Inspecteur(Citoyen):
     pass
+
+
+if __name__== "__main__":
+    print(CHEMIN)

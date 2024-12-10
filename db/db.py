@@ -1,8 +1,8 @@
 import sqlite3
-
+import os
 from citoyen.citoyen import Citoyen
 
-DB_FILE = __file__ +"/interf/enquete.db"
+CHEMIN = os.path.join(os.path.dirname( os.path.dirname( __file__ )), "interf", "enquete.db")
 
 def tout_creer():
     creer_table_temoin()
@@ -18,7 +18,7 @@ def tout_creer():
 
 
 def creer_table_citoyens():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS citoyen (
@@ -37,7 +37,7 @@ def creer_table_citoyens():
     connexion.close()
 
 def creer_table_user():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -65,7 +65,7 @@ FOREIGN KEY (eId) REFERENCES citoyen(cId)
     connexion.close()
 
 def creer_table_victime():
-    connexion = sqlite3.connect(DB_FILE)
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -89,7 +89,7 @@ def creer_table_victime():
     connexion.close()
 
 def creer_table_criminel():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -113,7 +113,7 @@ def creer_table_criminel():
     connexion.close()
 
 def creer_table_suspect():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -137,7 +137,7 @@ def creer_table_suspect():
     connexion.close()
 
 def creer_table_temoin():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -164,7 +164,7 @@ def creer_table_temoin():
 
 
 def creer_table_preuves():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -201,7 +201,7 @@ FOREIGN KEY (idSuspect) REFERENCES suspect(idSuspect)
     connexion.close()
 
 def creer_table_rapport():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
@@ -216,7 +216,7 @@ FOREIGN KEY (eId) REFERENCES enquete(eId));
     connexion.close()
 
 def creer_table_enquete():
-    connexion = sqlite3.connect("../interf/enquete.db")
+    connexion = sqlite3.connect(CHEMIN)
     cursor = connexion.cursor()
     cursor.execute(
         f"""
