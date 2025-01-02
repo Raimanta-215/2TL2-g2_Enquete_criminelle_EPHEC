@@ -95,7 +95,7 @@ def creer_table_criminel():
         f"""
         CREATE TABLE IF NOT EXISTS criminel (
         idCriminel INTEGER PRIMARY KEY AUTOINCREMENT,
-        cId INTEGER NOT NULL,
+        cId INTEGER NOT NULL UNIQUE,
         statut TEXT NOT NULL,
         FOREIGN KEY (cId) REFERENCES citoyen(cId));
         """)

@@ -40,7 +40,7 @@
                 size_hint_x: 0.8  # Le texte occupe 80% de l'espace disponible
 
             ImageLogo:
-                source: 'police_piltover.jpg'  # Remplacez par le chemin vers votre image
+                source: 'interf\police_piltover.jpg'  # Remplacez par le chemin vers votre image
                 size_hint_x: 0.2  # L'image occupe 20% de l'espace disponible
                 allow_stretch: True
                 keep_ratio: True
@@ -75,7 +75,7 @@
                     bold : True
                     text: 'CITOYENS'
                     on_press: root.manager.current = 'liste_citoyens'
-                    background_normal: 'cit.webp'
+                    background_normal: 'interf/cit.webp'
                 Button:
                     id: page_deux
                     background_down: "white"
@@ -87,7 +87,7 @@
                     bold : True
                     text: 'ENQUETE'
                     on_press: root.manager.current = 'accueil'
-                    background_normal: 'enq.webp'
+                    background_normal: 'interf/enq.webp'
                 Button:
                     id : page_trois
                     background_down: "white"
@@ -99,7 +99,7 @@
                     bold : True
                     text: 'Preuves'
                     on_press: root.manager.current = 'accueil'
-                    background_normal: 'pre.jpg'
+                    background_normal: 'interf\pre.jpg'
                 Button:
                     id: page_quatre
                     background_down: "white"
@@ -111,7 +111,7 @@
                     bold : True
                     text: 'Compte'
                     on_press: root.manager.current = 'accueil'
-                    background_normal: 'use.webp'
+                    background_normal: 'interf/use.jpg'
 
 <ListeCitoyensScreen>:
     BoxLayout:
@@ -139,7 +139,7 @@
             spacing: 20
 
             Image:
-                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                source: 'interf\police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
                 size_hint: 0.6, 1  # Ajuste la taille du logo
                 pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
 
@@ -206,6 +206,7 @@
                 size: self.width, dp(100)
                 pos: self.x, self.top - dp(100)
 
+
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
@@ -214,7 +215,7 @@
             spacing: 20
 
             Image:
-                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                source: 'interf\police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
                 size_hint: 0.6, 1  # Ajuste la taille du logo
                 pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
             Label:
@@ -249,6 +250,10 @@
                 text: "Date de naissance:"
             TextInput:
                 id: date_naissance_cit
+            Label:
+                text: "Date de mort:"
+            TextInput:
+                id: date_mort_cit
         Label:
             id: citValide
             text: ""
@@ -260,7 +265,7 @@
                 on_press: root.sauvegarder_citoyen()
             Button:
                 text: "Annuler"
-                on_press: root.manager.current = 'ajouter_citoyen'
+                on_press: root.manager.current = 'liste_citoyens'
             Button:
                 text: "Retour"
                 size : 30, 80
@@ -293,7 +298,7 @@
             spacing: 20
 
             Image:
-                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                source: 'interf\police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
                 size_hint: 0.6, 1  # Ajuste la taille du logo
                 pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
 
@@ -305,6 +310,7 @@
                 valign: 'middle'
                 color: (173/255, 154/255, 84/255, 1)
                 size_hint_x: 0.8
+
         BoxLayout:
             orientation: 'vertical'
             padding: 10
@@ -322,10 +328,37 @@
 
 
 
+
             BoxLayout:
                 orientation: 'horizontal'
-                spacing: 10
 
+                BoxLayout:
+                    orientation: 'horizontal'
+                    padding: 30
+                    size_hint_y: 0.4
+                    size_hint_x: 0.2
+
+                    GridLayout:
+                        cols: 1
+                        row: 3
+                        spacing: 6
+
+                        Label:
+                            text: 'Filtres :'
+
+                        Button:
+                            text: 'vivants'
+                            on_release:
+                                root.filtre_criminels()
+                            height: 44
+                            size_hint_y: None
+
+                        Button:
+                            text: 'tous'
+                            height: 44
+                            size_hint_y: None
+                            on_release:
+                                root.affiche_criminels()
                 Button:
                     text: "retour"
                     on_press: root.manager.current = 'accueil'
@@ -362,7 +395,7 @@
             spacing: 20
 
             Image:
-                source: 'police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
+                source: 'interf\police_piltover.jpg'  # Remplacez 'logo.png' par le chemin vers votre image
                 size_hint: 0.6, 1  # Ajuste la taille du logo
                 pos_hint: {'x': 0, 'y': 0}  # Positionne le logo en haut à gauche
             Label:
@@ -374,30 +407,47 @@
                 color: (173/255, 154/255, 84/255, 1)
                 size_hint_x: 0.8
 
-        GridLayout:
-            cols: 3
-            spacing: 10
-            Label:
-                text: "numero national"
 
-            TextInput:
-                id: cit_id
-                size_hint: 0.25, 0.1
+        BoxLayout:
+            orientation : 'horizontal'
+            padding: 60
 
-            Button:
-                text: "recherche"
-                on_press: root.chercher_citoyen()
-                size_hint: 0.25, 0.1
-            Label:
-                id: affiche_cit
-                size_hint: 0.25, 0.1
-            Button:
-                text: "retour"
-                on_press: root.manager.current = 'accueil'
-                size_hint: 0.25, 0.1
-            Button:
-                text: "ajouter criminel"
-                on_press: root.ajouter_criminel()
-                size_hint: 0.25, 0.1
+            GridLayout:
+                cols: 2
+                row: 2
+                spacing: 10
+                halign: 'center'
+                valign: 'middle'
+                BoxLayout:
+                    orientation: 'horizontal'
 
 
+
+                    spacing: 10
+                    size_hint: 0.1, 0.1
+                    Label:
+                        text: "numero national"
+                        size_hint: 0.25, 0.2
+                    TextInput:
+                        id: cit_id
+                        size_hint: 0.25, 0.2   
+
+                    Button:
+                        text: "recherche"
+                        on_press: root.chercher_citoyen()
+                        size_hint: 0.25, 0.2
+                Label:
+                    id: affiche_cit
+                    size_hint: 0.25, None
+                Button:
+                    text: "retour"
+                    on_press: root.manager.current = 'liste_criminels'
+                    size_hint: 0.25, None
+                    margin: [0, 50, 0, 30]
+                Button:
+                    text: "ajouter criminel"
+                    on_press: root.ajouter_criminel()
+                    size_hint: 0.25, None
+                    margin: [0, 50, 0, 30]
+    
+    
