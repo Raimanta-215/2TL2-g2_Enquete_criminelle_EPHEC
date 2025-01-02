@@ -8,15 +8,6 @@ CHEMIN = os.path.join(os.path.dirname( os.path.dirname( __file__ )), "interf", "
 
 @dataclass
 class Citoyen :
-    '''def __init__(self, nom, prenom, nationalite, date_naissance, date_mort = "vivant",adresse = ""):
-        self.nom = nom
-        self.prenom = prenom
-        self.nationalite = nationalite
-        self.date_naissance = date_naissance
-        self.date_mort = date_mort
-        self.adresse = adresse
-        '''
-
     nom: str
     prenom: str
     nationalite: str
