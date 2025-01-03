@@ -1,26 +1,39 @@
-from enquete.enquete import Enquete
-from interf.interf import EnqueteManagerApp
-from users.user import User, Inspecteur
+from db.db import tout_creer
+from interf.pages import PoliceApp
+import logging
+import os
+
+LOG_PATH = os.path.abspath('logs/police.log')
+logger = logging.getLogger(__name__)
 
 
-enquete1 = Enquete.creer_enquete(
-    id_enquete=1,
-    nom_enquete="Enquête Mystère",
-    lieu="Paris",
-    type_crime="Vol",
-    description="Enquête sur un vol mystérieux au musée."
-)
-print(f"Nom : {enquete1.nom_enquete}, Lieu : {enquete1.lieu}, Statut : {enquete1.statut}")
+def main():
+    logging.basicConfig(
+        filename=LOG_PATH,
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%m/%d/%Y %I:%M:%S %p',
 
+    )
+    logger.info('Starting Police App')
 
-user = User("Dupont", "Jean", "jean.dupont@example.com", "SecurePass123!", "inspecteur")
-# Tentative de modification du mot de passe
-try:
-    print(user.modifier_mdp("SecurePass123!", "NewPass1234!"))  # Succès
-except ValueError as e:
-    print(f"Erreur : {e}")
+    try:
+        logger.info('Creation de la base de donnée..')
+        tout_creer()
+        logger.info('Base de donnée crée avec succès')
+    except Exception as ex:
+        logger.error(ex)
+        return
 
-# Validation du nouveau mot de passe
-print(user.mot_de_passe)
+    try:
+        logger.info('lancement de l\'interface')
+        app = PoliceApp()
+        app.run()
+        logger.info('application lancée avec succès')
+    except Exception as ex:
+        logger.critical(f"appli pas lancée {ex}", exc_info=True)
 
-EnqueteManagerApp().run()
+    logger.info('Finishing Police App')
+
+if __name__ == '__main__':
+    main()

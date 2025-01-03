@@ -1,30 +1,29 @@
 from datetime import  date, datetime
 import sqlite3
 import os
-
+from dataclasses import dataclass
 
 
 CHEMIN = os.path.join(os.path.dirname( os.path.dirname( __file__ )), "interf", "enquete.db")
 
-
+@dataclass
 class Citoyen :
-    def __init__(self, nom, prenom, nationalite, date_naissance: date, date_mort = "vivant",adresse = ""):
-        self.nom = nom
-        self.prenom = prenom
-        self.nationalite = nationalite
-        self.date_naissance = date_naissance
-        self.date_mort = date_mort
-        self.adresse = adresse
+    nom: str
+    prenom: str
+    nationalite: str
+    date_naissance: date
+    date_mort: str = "vivant"
+    adresse: str = None
+    antedecent = []
 
-
-        self.antedecent = []
+    @property
     def nom_complet(self):
         """Retourne le nom complet de la personne."""
         return f"{self.nom} {self.prenom}"
-
+    @property
     def definir_age(self):
         """
-        Calcule l'age d'une personne en fonction de son age et de la date du jour
+        Calcule l'age d'une personne en fonction de son âge et de la date du jour
 
 
         """
@@ -44,18 +43,18 @@ class Citoyen :
         try:
             connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
-            age = self.definir_age() #faire la conversion avant enregistrement
+            age = self.definir_age  #faire la conversion avant enregistrement
             self.date_naissance = datetime.strptime(self.date_naissance, "%Y-%m-%d")
 
             cursor.execute(
                 """
                 INSERT INTO citoyen(nom, prenom, nationalite,  date_naissance, date_mort,adresse, age)
                 VALUES (?, ?, ?, ?, ?, ?,?)
-                """, (self.nom, self.prenom,self.nationalite, self.date_naissance, self.date_mort, self.adresse, age )
+                """, (self.nom, self.prenom,self.nationalite, self.date_naissance, self.date_mort, self.adresse.upper(), age )
             )
             connexion.commit()
             connexion.close()
-            print(f"Le citoyen {self.nom_complet()} à été enregistré")
+            print(f"Le citoyen {self.nom_complet} à été enregistré")
         except sqlite3.OperationalError as e:
             print(e)
 
@@ -65,35 +64,36 @@ class Citoyen :
         connexion = sqlite3.connect(CHEMIN)
         cursor = connexion.cursor()
         cursor.execute("""SELECT * FROM citoyen""")
-        tuples = cursor.fetchall()
-        connexion.close()
-        citoyens = []
-        for c in tuples:
+        for c in cursor:
             print(c)
-            citoyens.append(
-                Citoyen(
+            yield Citoyen(
                     nom=c[1],prenom=c[2], nationalite=c[3],
                     date_naissance=c[4], date_mort=c[5],adresse=c[6]
-                ))
+                )
 
+        connexion.close()
 
-
-        return citoyens
-
-    def afficher_antecedents(self):
+    def afficher_antecedents(self, cid):
         """afficher les antécédents du citoyen depuis db criminel_enquete"""
         try:
             connexion = sqlite3.connect(CHEMIN)
             cursor = connexion.cursor()
-            cursor.execute("SELECT * FROM criminel_enquete WHERE cId = ?", (self.cId,))
+            cursor.execute('''
+                           SELECT citoyen.nom, citoyen.prenom, citoyen.nationalite, criminel.idCriminel
+                           FROM criminel_enquete
+                                JOIN criminel on criminel.idCriminel = criminel_enquete.idCriminel
+                                JOIN citoyen on citoyen.cId = criminel.cId
+                           WHERE criminel.cId = ?
+                           '''
+                           , cid)
             result = cursor.fetchall()
             connexion.close()
 
             if result:
                 antecedents = result[0]
-                print(f"Antécédents de {self.nom_complet()} : {antecedents}")
+                print(f"Antécédents de {self.nom_complet} : {antecedents}")
             else:
-                print(f"Aucun antécédent trouvé pour {self.nom_complet()}")
+                print(f"Aucun antécédent trouvé pour {self.nom_complet}")
         except sqlite3.OperationalError as e:
             print(e)
 
@@ -139,11 +139,12 @@ class Criminel(Citoyen) :
                 VALUES (?, ?)
                 """, (cid, self.statut)
             )
+            connexion.commit()
 
             cursor.close()
             connexion.close()
 
-            print(f"Le criminel {self.nom_complet()} à été enregistré")
+            print(f"Le criminel {self.nom_complet} à été enregistré")
         except sqlite3.OperationalError as e:
             print(e)
         except sqlite3.IntegrityError as e:
@@ -151,27 +152,35 @@ class Criminel(Citoyen) :
 
     @staticmethod
     def recupere_liste_criminels():
-        connexion = sqlite3.connect(CHEMIN)
-        cursor = connexion.cursor()
-        cursor.execute("""SELECT citoyen.nom, citoyen.prenom, citoyen.age, criminel.statut
-                    FROM criminel
-                    JOIN citoyen ON criminel.cId = citoyen.cId;""")
-        tuples = cursor.fetchall()
-        connexion.close()
-        criminels = []
-        for c in tuples:
-            print(c)
-            Criminel(
-                nom=c[0],
-                prenom=c[1],
-                date_naissance=c[2],
-                statut=c[3]
-            )
 
+        try:
+            connexion = sqlite3.connect(CHEMIN)
+            cursor = connexion.cursor()
+            cursor.execute("""
+                        SELECT citoyen.nom, citoyen.prenom, citoyen.nationalite, citoyen.adresse,
+                               citoyen.date_naissance, citoyen.date_mort, criminel.statut
+                        FROM criminel
+                        JOIN citoyen ON criminel.cId = citoyen.cId;
+                        """)
 
-        return criminels
+            for c in cursor:
+                print(c)
+                yield Criminel(
+                        nom=c[0],
+                        prenom=c[1],
+                        nationalite=c[2],
+                        adresse=c[3],
+                        date_naissance=c[4],
+                        date_mort=c[5],
+                        statut=c[6]
+                )
+            connexion.close()
 
-    def modifier_criminel(self,cId, statut):
+        except sqlite3.OperationalError as e:
+            print(e)
+            return []
+
+    def modifier_criminel(self,cid, statut):
         """Modifier le statut du criminel"""
 
         try:
@@ -179,92 +188,16 @@ class Criminel(Citoyen) :
             cursor = connexion.cursor()
 
             query = """UPDATE criminel SET statut = ? WHERE cId = ?"""
-            cursor.execute(query, (statut, cId))
+            cursor.execute(query, (statut, cid))
 
             connexion.commit()
             cursor.close()
             connexion.close()
 
             self.statut = statut
-            print(f"Le statut de {self.nom_complet()} a été modifier")
+            print(f"Le statut de {self.nom_complet} a été modifier")
         except sqlite3.OperationalError as e:
             print(e)
-
-
-
-class Victime(Citoyen):
-    def __init__(self, nom, prenom, nationalite, date_naissance, date_mort, adresse, incident, statut, relation_enquete, date_incident):
-        super().__init__( nom, prenom, nationalite, date_naissance, date_mort, adresse)
-        self.incident = incident
-        self.statut = statut
-        self.relation_enquete = relation_enquete
-        self.date_incident = date_incident
-
-    def creer_victim(self, cId, eId, cause, idVictime):
-        """ creer la victime dans la db"""
-        try:
-            connexion = sqlite3.connect(CHEMIN)
-            cursor = connexion.cursor()
-            cursor.execute(
-                """
-                INSERT INTO victime(cId, statut, incident, date_incident)
-                VALUES(?, ?, ?, ?)
-                """, (cId, self.statut, self.incident, self.date_incident))
-
-            cursor.execute(
-                """
-                INSERT INTO victime_enquete(idVictime, eId, cause)
-                VALUES(?, ?, ?)
-                """, (idVictime, eId, cause)
-            )
-
-            cursor.close()
-            connexion.commit()
-            connexion.close()
-
-            print(f"La victime {self.nom_complet()} à été enregistré")
-
-        except sqlite3.OperationalError as e:
-            print(e)
-
-        except sqlite3.IntegrityError as e:
-            print(f"Erreur d'intégrité : {e}")
-
-    def modifier_statut(self, statut, idVictime):
-        """Modifier le statut de la victime"""
-        try:
-            connexion = sqlite3.connect(CHEMIN)
-            cursor = connexion.cursor()
-
-            query = """ UPDATE victime SET statut = ? WHERE idVictime = ?"""
-            cursor.execute(query, (query, (statut, idVictime)))
-
-            cursor.close()
-            connexion.close()
-            connexion.commit()
-            self.statut = statut
-
-            print(f"Le statut de {self.nom_complet()} a été modifier")
-        except sqlite3.OperationalError as e:
-            print(e)
-
-
-
-    def modifier_incident(self):
-        pass
-
-
-class Temoin(Citoyen):
-    pass
-
-class Suspect(Citoyen):
-    pass
-
-class Expert(Citoyen):
-    pass
-
-class Inspecteur(Citoyen):
-    pass
 
 
 
