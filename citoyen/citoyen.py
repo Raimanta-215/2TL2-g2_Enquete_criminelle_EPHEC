@@ -64,8 +64,6 @@ class Citoyen :
         connexion = sqlite3.connect(CHEMIN)
         cursor = connexion.cursor()
         cursor.execute("""SELECT * FROM citoyen""")
-
-
         for c in cursor:
             print(c)
             yield Citoyen(

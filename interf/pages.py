@@ -75,8 +75,6 @@ class ListeCriminelsScreen(Screen):
 
     def affiche_criminels(self):
         print(self.liste_raw)
-
-
         criminels_form = list(map(
             lambda c: {
                 "text": f"{c.nom_complet} - {c.nationalite} - {c.date_mort}" if c.date_mort == "vivant"
